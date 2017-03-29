@@ -24,17 +24,22 @@ namespace TaxRefactorPractice
 
         public static decimal GetTaxResult(decimal income)
         {
-            int level=0;
+            int level = GetLevel(income);
+            return CalcTax(income, level);
+        }
 
+        private static int GetLevel(decimal income)
+        {
             foreach (var boundaryRate in BoundaryRateTable)
             {
                 if (income <= boundaryRate.Boundary)
-                {
-                    level = boundaryRate.Level - 1;
-                    break;
-                }
+                    return boundaryRate.Level - 1;
             }
+            return BoundaryRateTable.Count;
+        }
 
+        private static decimal CalcTax(decimal income, int level)
+        {
             decimal tax = 0;
             for (int i = 1; i <= level; i++)
             {
@@ -45,35 +50,5 @@ namespace TaxRefactorPractice
                    * BoundaryRateTable[level].TaxRate;
             return tax;
         }
-
-        //public static decimal GetTaxResult(decimal income)
-        //{
-        //    decimal result = 0;
-        //    if (income < BoundaryRateTable[1].Boundary)
-        //    {
-        //        result = income * BoundaryRateTable[0].TaxRate;
-        //    }
-        //    else if (income < BoundaryRateTable[2].Boundary)
-        //    {
-        //        result = BoundaryRateTable[1].Boundary * BoundaryRateTable[0].TaxRate + (income - BoundaryRateTable[1].Boundary) * BoundaryRateTable[1].TaxRate;
-        //    }
-        //    else if (income < BoundaryRateTable[3].Boundary)
-        //    {
-        //        result = BoundaryRateTable[1].Boundary * BoundaryRateTable[0].TaxRate + (BoundaryRateTable[2].Boundary - BoundaryRateTable[1].Boundary) * BoundaryRateTable[1].TaxRate + (income - BoundaryRateTable[2].Boundary) * BoundaryRateTable[2].TaxRate;
-        //    }
-        //    else if (income < BoundaryRateTable[4].Boundary)
-        //    {
-        //        result = BoundaryRateTable[1].Boundary * BoundaryRateTable[0].TaxRate + (BoundaryRateTable[2].Boundary - BoundaryRateTable[1].Boundary) * BoundaryRateTable[1].TaxRate + (BoundaryRateTable[3].Boundary - BoundaryRateTable[2].Boundary) * BoundaryRateTable[2].TaxRate + (income - BoundaryRateTable[3].Boundary) * BoundaryRateTable[3].TaxRate;
-        //    }
-        //    else if (income < BoundaryRateTable[5].Boundary)
-        //    {
-        //        result = BoundaryRateTable[1].Boundary * BoundaryRateTable[0].TaxRate + (BoundaryRateTable[2].Boundary - BoundaryRateTable[1].Boundary) * BoundaryRateTable[1].TaxRate + (BoundaryRateTable[3].Boundary - BoundaryRateTable[2].Boundary) * BoundaryRateTable[2].TaxRate + (BoundaryRateTable[4].Boundary - BoundaryRateTable[3].Boundary) * BoundaryRateTable[3].TaxRate + (income - BoundaryRateTable[4].Boundary) * BoundaryRateTable[4].TaxRate;
-        //    }
-        //    else
-        //    {
-        //        result = BoundaryRateTable[1].Boundary * BoundaryRateTable[0].TaxRate + (BoundaryRateTable[2].Boundary - BoundaryRateTable[1].Boundary) * BoundaryRateTable[1].TaxRate + (BoundaryRateTable[3].Boundary - BoundaryRateTable[2].Boundary) * BoundaryRateTable[2].TaxRate + (BoundaryRateTable[4].Boundary - BoundaryRateTable[3].Boundary) * BoundaryRateTable[3].TaxRate + (BoundaryRateTable[5].Boundary - BoundaryRateTable[4].Boundary) * BoundaryRateTable[4].TaxRate + (income - BoundaryRateTable[5].Boundary) * BoundaryRateTable[5].TaxRate;
-        //    }
-        //    return result;
-        //}
     }
 }
