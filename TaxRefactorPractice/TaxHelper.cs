@@ -34,9 +34,15 @@ namespace TaxRefactorPractice
                     break;
                 }
             }
-            
-            decimal tax = (income - BoundaryRateTable[level].Boundary)
-                          * BoundaryRateTable[level].TaxRate;
+
+            decimal tax = 0;
+            for (int i = 1; i <= level; i++)
+            {
+                tax += (BoundaryRateTable[i].Boundary - BoundaryRateTable[i - 1].Boundary)
+                       * BoundaryRateTable[i - 1].TaxRate;
+            }
+            tax += (income - BoundaryRateTable[level].Boundary)
+                   * BoundaryRateTable[level].TaxRate;
             return tax;
         }
 
