@@ -2,32 +2,44 @@
 {
     public class TaxHelper
     {
+        private const int _boundary1 = 540_000;
+        private const int _boundary2 = 1_210_000;
+        private const int _boundary3 = 2_420_000;
+        private const int _boundary4 = 4_530_000;
+        private const int _boundary5 = 10_310_000;
+        private const decimal _rate0 = 0.05m;
+        private const decimal _rate1 = 0.12m;
+        private const decimal _rate2 = 0.2m;
+        private const decimal _rate3 = 0.3m;
+        private const decimal _rate4 = 0.4m;
+        private const decimal _rate6 = 0.5m;
+
         public static decimal GetTaxResult(decimal income)
         {
             decimal result = 0;
-            if (income < 540_000)
+            if (income < _boundary1)
             {
-                result = income * 0.05m;
+                result = income * _rate0;
             }
-            else if (income < 1_210_000)
+            else if (income < _boundary2)
             {
-                result = 540_000 * 0.05m + (income - 540_000) * 0.12m;
+                result = _boundary1 * _rate0 + (income - _boundary1) * _rate1;
             }
-            else if (income < 2_420_000)
+            else if (income < _boundary3)
             {
-                result = 540_000 * 0.05m + (1_210_000 - 540_000) * 0.12m + (income - 1_210_000) * 0.2m;
+                result = _boundary1 * _rate0 + (_boundary2 - _boundary1) * _rate1 + (income - _boundary2) * _rate2;
             }
-            else if (income < 4_530_000)
+            else if (income < _boundary4)
             {
-                result = 540_000 * 0.05m + (1_210_000 - 540_000) * 0.12m + (2_420_000 - 1_210_000) * 0.2m + (income - 2_420_000) * 0.3m;
+                result = _boundary1 * _rate0 + (_boundary2 - _boundary1) * _rate1 + (_boundary3 - _boundary2) * _rate2 + (income - _boundary3) * _rate3;
             }
-            else if (income < 10_310_000)
+            else if (income < _boundary5)
             {
-                result = 540_000 * 0.05m + (1_210_000 - 540_000) * 0.12m + (2_420_000 - 1_210_000) * 0.2m + (4_530_000 - 2_420_000) * 0.3m + (income - 4_530_000) * 0.4m;
+                result = _boundary1 * _rate0 + (_boundary2 - _boundary1) * _rate1 + (_boundary3 - _boundary2) * _rate2 + (_boundary4 - _boundary3) * _rate3 + (income - _boundary4) * _rate4;
             }
             else
             {
-                result = 540_000 * 0.05m + (1_210_000 - 540_000) * 0.12m + (2_420_000 - 1_210_000) * 0.2m + (4_530_000 - 2_420_000) * 0.3m + (10_310_000 - 4_530_000) * 0.4m + (income - 10_310_000) * 0.5m;
+                result = _boundary1 * _rate0 + (_boundary2 - _boundary1) * _rate1 + (_boundary3 - _boundary2) * _rate2 + (_boundary4 - _boundary3) * _rate3 + (_boundary5 - _boundary4) * _rate4 + (income - _boundary5) * _rate6;
             }
             return result;
         }
